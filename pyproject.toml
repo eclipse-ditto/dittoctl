@@ -1,0 +1,100 @@
+# Copyright (c) 2026 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License 2.0 which is available at
+# http://www.eclipse.org/legal/epl-2.0
+#
+# AI Disclosure: This file was largely AI-generated. The AI-generated
+# portions are made available under CC0-1.0 and not subject to the
+# project's licence. The human contributor has reviewed and verified
+# that the code is correct.
+#
+# SPDX-License-Identifier: EPL-2.0 AND CC0-1.0
+# Assisted-by: Anthropic Claude Opus 5.5 (claude-opus-5-5)
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dittoctl"
+dynamic = ["version"]
+description = "Command line tool for Eclipse Ditto: search, export, bulk modification, messages, policies, connections and DevOps"
+readme = "README.md"
+requires-python = ">=3.11"
+# the AI-generated portions of the code are dedicated to the public domain, see NOTICE.md
+license = "EPL-2.0 AND CC0-1.0"
+license-files = ["LICENSE", "NOTICE.md", "legal/*"]
+authors = [{ name = "Contributors to the Eclipse Foundation" }]
+keywords = ["eclipse-ditto", "ditto", "digital-twin", "iot", "cli"]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Intended Audience :: System Administrators",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Internet :: WWW/HTTP",
+  "Topic :: System :: Systems Administration",
+]
+dependencies = [
+  "click>=8.1",
+  "httpx>=0.27",
+  "keyring>=25",
+  "rich>=13.7",
+  "tomli-w>=1.0",
+]
+
+[project.scripts]
+dittoctl = "dittoctl.cli.main:main"
+
+[project.urls]
+Homepage = "https://github.com/eclipse-ditto/dittoctl"
+Issues = "https://github.com/eclipse-ditto/dittoctl/issues"
+Ditto = "https://eclipse.dev/ditto/"
+
+[dependency-groups]
+dev = [
+  "build>=1.2",
+  "pytest>=8",
+  "respx>=0.21",
+  "ruff>=0.6",
+]
+
+[tool.hatch.version]
+path = "src/dittoctl/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dittoctl"]
+
+[tool.hatch.build.targets.sdist]
+# PLAN.md is a local working document and not part of releases
+exclude = ["PLAN.md", ".github"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "S", "PT"]
+ignore = [
+  "S101", # assert is fine in tests
+  "S105", # false positives on token-related names such as use_token = "access"
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S105", "S106"]
+
+[tool.pyright]
+include = ["src"]
+pythonVersion = "3.11"
+typeCheckingMode = "basic"
